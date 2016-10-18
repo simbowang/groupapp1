@@ -1,0 +1,247 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.lenovo.groupapp1; 
+ 
+</span><span class="s2">/** 
+ * Created by lenovo on 2016/10/16. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.Manifest; 
+</span><span class="s0">import </span><span class="s1">android.content.pm.PackageManager; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationListener; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationManager; 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.ActivityCompat; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity; 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView; 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.CameraUpdateFactory; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.GoogleMap; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.MapFragment; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.OnMapReadyCallback; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.LatLng; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.MarkerOptions; 
+ 
+ 
+ 
+</span><span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s0">implements </span><span class="s1">OnMapReadyCallback 
+{ 
+ 
+    </span><span class="s0">private </span><span class="s1">MapFragment map; 
+    </span><span class="s0">private </span><span class="s1">GoogleMap myMap; 
+ 
+    </span><span class="s0">private </span><span class="s1">TextView latitude; 
+    </span><span class="s0">private </span><span class="s1">TextView longitude; 
+ 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) 
+    { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        </span><span class="s2">//checkRationale();</span><span class="s1"> 
+ 
+        latitude = (TextView) findViewById(R.id.latitude); 
+        longitude = (TextView) findViewById(R.id.longitude); 
+ 
+        map = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment); 
+        map.getMapAsync(</span><span class="s0">this</span><span class="s1">); 
+ 
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE); 
+        LocationListener listener = </span><span class="s0">new </span><span class="s1">LocationListener() 
+        { 
+ 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onLocationChanged(android.location.Location loc) 
+            { 
+                </span><span class="s0">double </span><span class="s1">lat = loc.getLatitude(); 
+                </span><span class="s0">double </span><span class="s1">lon = loc.getLongitude(); 
+                addMapMarker(lat, lon); 
+ 
+                latitude.setText(</span><span class="s3">&quot;&quot; </span><span class="s1">+ loc.getLatitude()); 
+                longitude.setText(</span><span class="s3">&quot;&quot; </span><span class="s1">+ loc.getLongitude()); 
+            } 
+ 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onStatusChanged(String s, </span><span class="s0">int </span><span class="s1">i, Bundle bundle) 
+            { 
+            } 
+ 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onProviderEnabled(String s) 
+            { 
+            } 
+ 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onProviderDisabled(String s) 
+            { 
+            } 
+        }; 
+ 
+ 
+        </span><span class="s2">/* 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != 
+                PackageManager.PERMISSION_GRANTED) 
+        { 
+ 
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != 
+                    PackageManager.PERMISSION_GRANTED) 
+            { 
+ 
+                if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) 
+                { 
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET} 
+                            , 10); 
+                } 
+            } 
+            return; 
+        } 
+        */</span><span class="s1"> 
+ 
+ 
+        </span><span class="s0">if </span><span class="s1">(ActivityCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) 
+        { 
+            makeRequest(); 
+            </span><span class="s0">return</span><span class="s1">; 
+        } 
+        locationManager.requestLocationUpdates(</span><span class="s3">&quot;gps&quot;</span><span class="s1">, </span><span class="s4">2000</span><span class="s1">, </span><span class="s4">0</span><span class="s1">, listener); 
+ 
+ 
+ 
+    } </span><span class="s2">// End of onCreate</span><span class="s1"> 
+ 
+ 
+ 
+ 
+ 
+ 
+    </span><span class="s0">void </span><span class="s1">addMapMarker(Double latitude, Double longitude) 
+    { 
+        myMap.clear(); 
+        LatLng loc = </span><span class="s0">new </span><span class="s1">LatLng(latitude,longitude); 
+        myMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(loc).title(</span><span class="s3">&quot;current location&quot;</span><span class="s1">)); 
+        myMap.moveCamera(CameraUpdateFactory.newLatLng(loc)); 
+    } 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onMapReady(GoogleMap myMap) 
+    { 
+        </span><span class="s0">this</span><span class="s1">.myMap  = myMap; 
+    } 
+ 
+ 
+ 
+    </span><span class="s0">public void </span><span class="s1">checkRationale() 
+    { 
+ 
+        </span><span class="s2">/* 
+        int permission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION); 
+        // Automatically calls onRequestPermissionResults 
+        */</span><span class="s1"> 
+ 
+ 
+        </span><span class="s2">/* 
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION); 
+        if(permission != PackageManager.PERMISSION_GRANTED) 
+        { 
+            makeRequest(); 
+        } 
+        */</span><span class="s1"> 
+ 
+ 
+ 
+ 
+ 
+        </span><span class="s2">/* 
+        if (permission != PackageManager.PERMISSION_GRANTED) 
+        { 
+ 
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION )) 
+            { 
+                Log.d(&quot;MainActivity&quot;, &quot;Should show permission rationale&quot;); 
+                Toast.makeText(MainActivity.this, &quot;Show rationale&quot;, Toast.LENGTH_SHORT); 
+                AlertDialog.Builder builder = new AlertDialog.Builder(this); 
+                builder.setMessage(&quot;You must grant permission to access your location.&quot;).setTitle(&quot;Permission required&quot;); 
+                builder.setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() 
+                { 
+                    @Override 
+                    public void onClick(DialogInterface dialog, int id) 
+                    { 
+                        makeRequest(); 
+                    } 
+                }); 
+                builder.setNegativeButton(&quot;DENY ACCESS\n(currently pointless)&quot;, new DialogInterface.OnClickListener() 
+                { 
+                    @Override 
+                    public void onClick(DialogInterface dialog, int id) 
+                    { 
+                        finish(); 
+                    } 
+                }); 
+ 
+                //builder.create().show(); 
+ 
+            } 
+            else 
+            { 
+                makeRequest(); 
+            } 
+        } 
+        */</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+ 
+    </span><span class="s0">protected void </span><span class="s1">makeRequest() 
+    { 
+        ActivityCompat.requestPermissions(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">new </span><span class="s1">String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, </span><span class="s4">2</span><span class="s1">); 
+    } 
+ 
+ 
+ 
+ 
+ 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onRequestPermissionsResult(</span><span class="s0">int </span><span class="s1">requestCode, String permissions[], </span><span class="s0">int</span><span class="s1">[] grantResults) 
+    { 
+        </span><span class="s0">if </span><span class="s1">(grantResults.length == </span><span class="s4">0 </span><span class="s1">|| grantResults[</span><span class="s4">0</span><span class="s1">] != PackageManager.PERMISSION_GRANTED) 
+        { 
+            Toast.makeText(</span><span class="s0">this</span><span class="s1">, </span><span class="s3">&quot;Application will terminate. You did not grant permission. &quot;</span><span class="s1">, Toast.LENGTH_LONG).show(); 
+            finish(); 
+        } 
+ 
+        </span><span class="s0">return</span><span class="s1">; 
+    } 
+ 
+ 
+}</span></pre>
+</body>
+</html>
